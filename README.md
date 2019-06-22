@@ -48,12 +48,19 @@ __Functional__
 | image | `String`, image src | no |
 | preloader | `ReactComponent`, or `String` | yes |
 
+<br />
+
 __Event__
+
 Sometimes you need to know when zoom or drag happens. The `Image` component also accepts these props:
+
 | Name | Description |
 |---|---|
 | onActionStart | `Function({ type, touch })` |
 | onActionEnd | `Function({ type, touch })` |
+
+<br />
+
 ```
 type: [String] 'drag' || 'zoom'
 touch: [Boolean]
