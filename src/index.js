@@ -6,8 +6,8 @@ export default props => {
 
   const { image, preloader, onActionStart, onActionEnd } = props;
   const [ loaded, setLoaded ] = useState(preloader ? false : true)
-  console.log('loaded', loaded)
-  console.log('preloader', preloader)
+  // console.log('loaded', loaded)
+  // console.log('preloader', preloader)
   const transitions = useTransition(loaded, null, {
     from: { opacity: 0 },
     enter: { opacity: 1 },
@@ -39,9 +39,9 @@ export default props => {
       if(preloader) setLoaded(true)
       managePostAction()
     }
-    img.src = image
     pos.current = [0,0]
     scale.current = 1
+    img.src = image
 
   },[ image ])
 
