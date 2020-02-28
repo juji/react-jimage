@@ -135,6 +135,8 @@ var _default = function _default(props) {
   }, []);
   var wheelTimeout = (0, _react.useRef)();
   var handleWheel = (0, _react.useCallback)(function (e) {
+    e.stopPropagation();
+    e.nativeEvent.stopImmediatePropagation();
     var delta = e.deltaY || e.deltaX;
     if (!delta) return;
     scale.current = Math.min(Math.max(scale.current + delta / Math.abs(delta) * 0.1, 1), 10);
@@ -166,13 +168,19 @@ var _default = function _default(props) {
   var lastPos = (0, _react.useRef)();
   var lastRadius = (0, _react.useRef)();
   var handleTouchStart = (0, _react.useCallback)(function (e) {
+    e.stopPropagation();
+    e.nativeEvent.stopImmediatePropagation();
     lastPos.current = [e.touches[0].screenX, e.touches[0].screenY];
     if (e.touches.length > 1) lastRadius.current = {
       touch: Math.sqrt(Math.pow(e.touches[0].screenX - e.touches[1].screenX, 2) + Math.pow(e.touches[0].screenY - e.touches[1].screenY, 2)),
       scale: scale.current
     };
-    document.addEventListener('touchmove', handleTouchMove);
-    document.addEventListener('touchend', handleTouchEnd);
+    document.addEventListener('touchmove', handleTouchMove, {
+      passive: false
+    });
+    document.addEventListener('touchend', handleTouchEnd, {
+      passive: false
+    });
     if (onActionStart && e.touches.length > 1) onActionStart({
       type: 'zoom',
       touch: true
@@ -184,6 +192,9 @@ var _default = function _default(props) {
     return false;
   }, []);
   var handleTouchMove = (0, _react.useCallback)(function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+
     if (e.touches.length > 1) {
       var radius = Math.sqrt(Math.pow(e.touches[0].screenX - e.touches[1].screenX, 2) + Math.pow(e.touches[0].screenY - e.touches[1].screenY, 2));
       var deltaRad = lastRadius.current.scale * (radius / lastRadius.current.touch);
@@ -202,6 +213,8 @@ var _default = function _default(props) {
     return false;
   }, []);
   var handleTouchEnd = (0, _react.useCallback)(function (e) {
+    e.preventDefault();
+    e.stopPropagation();
     document.removeEventListener('touchmove', handleTouchMove);
     document.removeEventListener('touchend', handleTouchEnd);
     managePostAction();
