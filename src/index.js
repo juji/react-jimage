@@ -119,6 +119,9 @@ export default props => {
 
   const wheelTimeout = useRef();
   const handleWheel = useCallback((e) => {
+    e.stopPropagation();
+    e.nativeEvent.stopImmediatePropagation();
+
     const delta = e.deltaY || e.deltaX
     if(!delta) return
     scale.current = Math.min(Math.max(
@@ -152,6 +155,10 @@ export default props => {
   const lastPos = useRef()
   const lastRadius = useRef()
   const handleTouchStart = useCallback((e) => {
+
+    e.stopPropagation();
+    e.nativeEvent.stopImmediatePropagation();
+
     lastPos.current = [e.touches[0].screenX, e.touches[0].screenY]
     if(e.touches.length>1) lastRadius.current = {
       touch: Math.sqrt(
@@ -160,8 +167,8 @@ export default props => {
       ),
       scale: scale.current
     }
-    document.addEventListener('touchmove', handleTouchMove)
-    document.addEventListener('touchend', handleTouchEnd)
+    document.addEventListener('touchmove', handleTouchMove, { passive: false })
+    document.addEventListener('touchend', handleTouchEnd, { passive: false })
     if(onActionStart && e.touches.length > 1) onActionStart({
       type: 'zoom',
       touch: true
@@ -174,6 +181,9 @@ export default props => {
   },[])
 
   const handleTouchMove = useCallback((e) => {
+    e.preventDefault()
+    e.stopPropagation();
+
     if(e.touches.length>1){
       const radius = Math.sqrt(
           Math.pow(e.touches[0].screenX - e.touches[1].screenX,2) +
@@ -207,6 +217,9 @@ export default props => {
   },[])
 
   const handleTouchEnd = useCallback((e) => {
+    e.preventDefault()
+    e.stopPropagation();
+    
     document.removeEventListener('touchmove', handleTouchMove)
     document.removeEventListener('touchend', handleTouchEnd)
     managePostAction()
