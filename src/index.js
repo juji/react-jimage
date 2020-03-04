@@ -4,7 +4,7 @@ import { useSpring, animated, useTransition } from 'react-spring'
 
 export default props => {
 
-  const { image, preloader, onActionStart, onActionEnd } = props;
+  const { image, preloader, onActionStart, onActionEnd, imageProps } = props;
   const [ loaded, setLoaded ] = useState(preloader ? false : true)
   // console.log('loaded', loaded)
   // console.log('preloader', preloader)
@@ -219,7 +219,7 @@ export default props => {
   const handleTouchEnd = useCallback((e) => {
     e.preventDefault()
     e.stopPropagation();
-    
+
     document.removeEventListener('touchmove', handleTouchMove)
     document.removeEventListener('touchend', handleTouchEnd)
     managePostAction()
@@ -248,6 +248,7 @@ export default props => {
     }}
   >
       { preloader && !loaded ? preloader : transitions.map(({ item, key, props }) => item && <animated.img
+        { ...(imageProps||{}) }
         key={key}
         style={{
           height: '100%',
