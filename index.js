@@ -13,6 +13,8 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; if (obj != null) { var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -39,7 +41,8 @@ var _default = function _default(props) {
   var image = props.image,
       preloader = props.preloader,
       onActionStart = props.onActionStart,
-      onActionEnd = props.onActionEnd;
+      onActionEnd = props.onActionEnd,
+      imageProps = props.imageProps;
 
   var _useState = (0, _react.useState)(preloader ? false : true),
       _useState2 = _slicedToArray(_useState, 2),
@@ -244,7 +247,7 @@ var _default = function _default(props) {
     var item = _ref.item,
         key = _ref.key,
         props = _ref.props;
-    return item && _react["default"].createElement(_reactSpring.animated.img, {
+    return item && _react["default"].createElement(_reactSpring.animated.img, _extends({}, imageProps || {}, {
       key: key,
       style: _objectSpread({
         height: '100%',
@@ -259,7 +262,7 @@ var _default = function _default(props) {
       }),
       draggable: "false",
       src: image
-    });
+    }));
   }));
 };
 
